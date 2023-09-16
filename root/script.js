@@ -70,7 +70,7 @@ for (let i=0; i < word.length; i++)
 //Кол-во оставшихся букв
 let remainingLetters = word.length;
 //Кол-во попыток
-let remainingTries = word.length;
+let remainingTries = word.length * 3;
 while (remainingLetters > 0 && remainingTries > 0)
 {
     //Показываем состояние игры
