@@ -1,0 +1,13 @@
+h1 {
+    font-size: 48px;
+    color: darkseagreen;
+    font-family: "Calibri Light";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
