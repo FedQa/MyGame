@@ -23,7 +23,7 @@ let remainingLetters = word.length;
 let remainingTries = word.length;
 while (remainingLetters > 0 && remainingTries > 0)
 {
-    //Показывае состояние игры
+    //Показываем состояние игры
     alert(finalArray.join(" "));
     let guess = prompt("Угадайте букву или нажмите Отмена для выхода из игры.");
     if (guess === null)
@@ -48,6 +48,7 @@ while (remainingLetters > 0 && remainingTries > 0)
                 remainingLetters--;
             }
         }
+        //fixed the bug with remainingLetters
         if (!finalArray.includes(guess)) remainingTries--;
     }
     if (remainingLetters === 0)
