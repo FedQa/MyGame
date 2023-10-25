@@ -59,53 +59,83 @@ let words = [
     "праздник",
     "пицца"
 ];
-//Выборка случайного слова
-let word = words[Math.floor(Math.random() * words.length)];
-//Создаем итоговой массив
-let finalArray = [];
-for (let i=0; i < word.length; i++)
-{
-    finalArray[i] = "_";
-}
+let word = pickWord();
+let guessArray = createGuessArray(word);
+
 //Кол-во оставшихся букв
 let remainingLetters = word.length;
 //Кол-во попыток
 let remainingTries = word.length * 3;
-while (remainingLetters > 0 && remainingTries > 0)
+
+function pickWord()
+{
+    return words[Math.floor(Math.random() * words.length)];
+}
+
+function createGuessArray(word)
+{
+    return new Array(word.length).fill("_");
+}
+
+function getGuess()
+{
+    return prompt("Угадайте букву или нажмите Отмена для выхода из игры.");
+}
+
+function showPlayerProgress()
 {
     //Показываем состояние игры
-    alert(finalArray.join(" "));
-    let guess = prompt("Угадайте букву или нажмите Отмена для выхода из игры.");
-    if (guess === null)
+    alert(guessArray.join(" "));
+}
+
+function updateGameState(guess, word, guessArray)
+{
+    guess = guess.toLowerCase();
+    if(guessArray.includes(guess))
     {
-        break;
+        alert("Вы уже называли эту букву");
+        return;
     }
-    else if (guess.length !== 1) {
-        alert("Пожалуйста введите 1 букву.");
-    }
-    else {
-        //Обновляем состояние игры
-        if (guess.toUpperCase()) guess = guess.toLowerCase();
-        for (let j=0; j < word.length; j++)
+    let correctGuess = false;
+    for (let i=0; i<word.length; i++)
+    {
+        if (word[i] === guess)
         {
-            if (finalArray[j] === guess) {
-                alert("Вы уже называли эту букву");
-                break;
-            }
-            else if(word[j] === guess)
-            {
-                finalArray[j] = guess;
-                remainingLetters--;
-            }
+            guessArray[i] = guess;
+            correctGuess = true;
         }
-        //fixed the bug with remainingLetters
-        if (!finalArray.includes(guess)) remainingTries--;
     }
+    return correctGuess;
+}
+
+function showAnswerAndCongratulatePlayer(remainingLetters, remainingTries)
+{
     if (remainingLetters === 0)
     {
-        alert("Отлично! Было загадано слово " + word);
+        return alert("Отлично! Было загадано слово " + word);
     }
     else if (remainingTries === 0) {
-        alert("Количество попыток закончилось, вы проиграли :( \n Было загадано слово " + word);
+        return alert("Количество попыток закончилось, вы проиграли :( \n Было загадано слово " + word);
     }
 }
+
+
+while (remainingLetters > 0 && remainingTries > 0) {
+    showPlayerProgress();
+    let guess = getGuess();
+    if (guess === null) {
+        break;
+    } else if (guess.length !== 1) {
+        alert("Пожалуйста введите 1 букву.");
+    } else {
+       let correctGuess = updateGameState(guess, word, guessArray);
+       if (correctGuess)
+       {
+           remainingLetters--;
+       }
+       else {
+           remainingTries--;
+       }
+    }
+}
+showAnswerAndCongratulatePlayer(remainingLetters, remainingTries);
